@@ -1,0 +1,3 @@
+[run]
+source = practice_api_python_pyramid
+omit = practice_api_python_pyramid/test*

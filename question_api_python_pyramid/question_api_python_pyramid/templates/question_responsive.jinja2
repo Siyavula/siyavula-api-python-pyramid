@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Practice API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="{{request.static_url('question_api_python_pyramid:static/siyavula-32x32.png')}}">
+  <link rel="stylesheet" href="{{ api_base_url }}/static/themes/emas/question-api/question-api.min.css" />
+
+  <script type="text/javascript">
+    token = '{{ token }}';
+    template_id = {{ template_id }};
+    random_seed = {{ random_seed }};
+    baseUrl = '{{ api_base_url }}/';
+  </script>
+</head>
+
+<body>
+  <main class="sv-region-main emas sv">
+    <div id="monassis" class="monassis monassis--practice monassis--maths monassis--question-api">
+      <div class="question-wrapper">
+        <div class="question-content"></div>
+      </div>
+    </div>
+  </main>
+</body>
+<script src="{{ api_base_url }}/static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+<script src="{{ api_base_url }}/static/themes/emas/question-api/question-api.min.js"></script>
+
+</html>
