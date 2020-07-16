@@ -42,7 +42,7 @@ def standalone_responsive(request):
         'user_token': user_token,
         'template_id': template_id,
         'random_seed': random_seed,
-        'api_base_url': api_base_url
+        'api_base_url': api_base_url + '/'
     }
 
 
@@ -82,5 +82,5 @@ def assignment_responsive(request):
         'token': token,
         'user_token': user_token,
         'assignment_id': assignment_id,
-        'api_base_url': api_base_url
+        'api_base_url': api_base_url + '/'
     }
