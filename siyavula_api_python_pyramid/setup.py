@@ -23,9 +23,9 @@ tests_require = [
 ]
 
 setup(
-    name='question_api_python_pyramid',
+    name='siyavula_api_python_pyramid',
     version='0.0',
-    description='question-api-python-pyramid',
+    description='siyavula-api-python-pyramid',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
         'Programming Language :: Python',
@@ -46,7 +46,7 @@ setup(
     install_requires=requires,
     entry_points={
         'paste.app_factory': [
-            'main = question_api_python_pyramid:main',
+            'main = siyavula_api_python_pyramid:main',
         ],
     },
 )

@@ -15,13 +15,13 @@ class ViewTests(unittest.TestCase):
         from .views.default import my_view
         request = testing.DummyRequest()
         info = my_view(request)
-        self.assertEqual(info['project'], 'question-api-python-pyramid')
+        self.assertEqual(info['project'], 'siyavula-api-python-pyramid')
 
 
 class FunctionalTests(unittest.TestCase):
 
     def setUp(self):
-        from question_api_python_pyramid import main
+        from siyavula_api_python_pyramid import main
         app = main({})
         from webtest import TestApp
         self.testapp = TestApp(app)
