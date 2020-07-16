@@ -36,7 +36,7 @@ This repo serves as a demo application written in [Python](https://www.python.or
 #### Set your username and password in `my.env`
 #### Run the app
     ./start.sh
-#### To demo the responsive version, in your browser go to:
-    http://localhost:6543/emas
-#### To demo the mobile (phones without JavaScript support) version, in your browser go to:
-    http://localhost:6543/mobile
+#### To demo a standalone activity, in your browser go to:
+    http://localhost:6543/standalone
+#### To demo an assignment activity, in your browser go to:
+    http://localhost:6543/assignment
