@@ -3,3 +3,4 @@ def includeme(config):
     config.add_route('standalone_responsive', '/standalone')
     config.add_route('assignment_responsive', '/assignment')
     config.add_route('practice_responsive', '/practice')
+    config.add_route('practice_toc', '/practice-toc')

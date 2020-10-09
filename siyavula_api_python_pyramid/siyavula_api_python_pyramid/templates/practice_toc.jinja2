@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Siyavula API - Practice Activity Table of Contents</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/json-path-picker@0.2.0/lib/json-path-picker.css">
+    <style type="text/css">
+      body {
+        padding-left: 1em;
+      }
+
+      .pick-path, #path {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <pre id="json-renderer"></pre>
+    <input id="path" type="text">
+  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/json-path-picker@0.2.0/lib/json-path-picker.js"></script>
+    <script type="text/javascript">
+      var toc = {{ toc|tojson|safe }};
+      $('#json-renderer').jsonPathPicker(toc, '#path');
+    </script>
+</html>
