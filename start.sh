@@ -14,4 +14,5 @@ echo -e "${green}\tStandalone Activity: ${reset}${blue}http://localhost:6543/sta
 echo -e "${green}\tAssignment Activity: ${reset}${blue}http://localhost:6543/assignment${reset}"
 echo -e "${green}\tPractice Activity: ${reset}${blue}http://localhost:6543/practice${reset}"
 echo -e "${green}\tPractice Activity Table of Contents: ${reset}${blue}http://localhost:6543/practice-toc${reset}"
+echo -e "${green}\tPractice Activity Table of Contents (Mastery Applied): ${reset}${blue}http://localhost:6543/practice-toc-mastery${reset}"
 venv/bin/pserve siyavula_api_python_pyramid/production.ini
