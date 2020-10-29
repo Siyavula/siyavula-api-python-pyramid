@@ -3,42 +3,36 @@ import requests
 
 from pyramid.view import view_config
 
+REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
+CURRICULUM = 'CAPS'     # The curriculum code - can be: 'CAPS', 'NG', 'CBC', 'INTL'
+
 
 @view_config(route_name='standalone_responsive', renderer='/templates/standalone_responsive.jinja2')
 def standalone_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
     template_id = 2122
-    region = 'ZA'  # The country shortcode, can be either 'ZA', 'NG' or 'INTL'.
-    curriculum = 'CAPS'  # The curriculum code, can be either 'CAPS', 'NG' or 'INTL'.
-    # Use 'responsive' to get a responsive theme for modern devices
-    # or 'basic' for older devices without JS support.
-    theme = 'responsive'  # The theme to use, can be either 'responsive' or 'basic'.
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
+    user_id = '1'
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'client_ip': request.client_addr,
-        'region': region,
-        'curriculum': curriculum,
+        'region': REGION,
+        'curriculum': CURRICULUM,
         'theme': theme
     }
 
-    # Request client token
-    res = requests.post('{}/api/siyavula/v1/get-token'.format(api_base_url),
-                        verify=False, json=data)
-    token = res.json()['token']
-
-    # Request user token
-    # Ensure you have created a user with the external id specified or this won't work.
-    user_id = '1'
-    headers = {'JWT': token}
-    res = requests.get('{}/api/siyavula/v1/user/{}/token'.format(api_base_url, user_id),
-                       verify=False, json=data, headers=headers)
-    user_token = res.json()['token']
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
 
     return {
-        'token': token,
+        'token': client_token,
         'user_token': user_token,
         'template_id': template_id,
         'random_seed': random_seed,
@@ -49,37 +43,28 @@ def standalone_responsive(request):
 @view_config(route_name='assignment_responsive', renderer='/templates/assignment_responsive.jinja2')
 def assignment_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
-    region = 'ZA'  # The country shortcode, can be either 'ZA', 'NG' or 'INTL'.
-    curriculum = 'CAPS'  # The curriculum code, can be either 'CAPS', 'NG' or 'INTL'.
-    # Use 'responsive' to get a responsive theme for modern devices
-    # or 'basic' for older devices without JS support.
-    theme = 'responsive'  # The theme to use, can be either 'responsive' or 'basic'.
     assignment_id = 9664  # Change this to one of your own assignments.
+    user_id = '1'
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'client_ip': request.client_addr,
-        'region': region,
-        'curriculum': curriculum,
+        'region': REGION,
+        'curriculum': CURRICULUM,
         'theme': theme
     }
 
-    # Request client token
-    res = requests.post('{}/api/siyavula/v1/get-token'.format(api_base_url),
-                        verify=False, json=data)
-    token = res.json()['token']
-
-    # Request user token
-    # Ensure you have created a user with the external id specified or this won't work.
-    user_id = '1'
-    headers = {'JWT': token}
-    res = requests.get('{}/api/siyavula/v1/user/{}/token'.format(api_base_url, user_id),
-                       verify=False, json=data, headers=headers)
-    user_token = res.json()['token']
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
 
     return {
-        'token': token,
+        'token': client_token,
         'user_token': user_token,
         'assignment_id': assignment_id,
         'api_base_url': api_base_url + '/'
@@ -89,37 +74,28 @@ def assignment_responsive(request):
 @view_config(route_name='practice_responsive', renderer='/templates/practice_responsive.jinja2')
 def practice_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
-    region = 'ZA'  # The country shortcode, can be either 'ZA', 'NG' or 'INTL'.
-    curriculum = 'CAPS'  # The curriculum code, can be either 'CAPS', 'NG' or 'INTL'.
-    # Use 'responsive' to get a responsive theme for modern devices
-    # or 'basic' for older devices without JS support.
-    theme = 'responsive'  # The theme to use, can be either 'responsive' or 'basic'.
     section_id = 204  # Change this to the section you wish to practice.
+    user_id = '1'
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'client_ip': request.client_addr,
-        'region': region,
-        'curriculum': curriculum,
+        'region': REGION,
+        'curriculum': CURRICULUM,
         'theme': theme
     }
 
-    # Request client token
-    res = requests.post('{}/api/siyavula/v1/get-token'.format(api_base_url),
-                        verify=False, json=data)
-    token = res.json()['token']
-
-    # Request user token
-    # Ensure you have created a user with the external id specified or this won't work.
-    user_id = '1'
-    headers = {'JWT': token}
-    res = requests.get('{}/api/siyavula/v1/user/{}/token'.format(api_base_url, user_id),
-                       verify=False, json=data, headers=headers)
-    user_token = res.json()['token']
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
 
     return {
-        'token': token,
+        'token': client_token,
         'user_token': user_token,
         'section_id': section_id,
         'api_base_url': api_base_url + '/'
@@ -129,28 +105,25 @@ def practice_responsive(request):
 @view_config(route_name='practice_toc', renderer='/templates/practice_toc.jinja2')
 def practice_toc(request):
     api_base_url = request.registry.settings['api_base_url']
-    region = 'ZA'  # The country shortcode, can be either 'ZA', 'NG' or 'INTL'.
-    curriculum = 'CAPS'  # The curriculum code, can be either 'CAPS', 'NG' or 'INTL'.
-    # Use 'responsive' to get a responsive theme for modern devices
-    # or 'basic' for older devices without JS support.
-    theme = 'responsive'  # The theme to use, can be either 'responsive' or 'basic'.
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'client_ip': request.client_addr,
-        'region': region,
-        'curriculum': curriculum,
+        'region': REGION,
+        'curriculum': CURRICULUM,
         'theme': theme
     }
 
-    # Request client token
-    res = requests.post('{}/api/siyavula/v1/get-token'.format(api_base_url),
-                        verify=False, json=data)
-    token = res.json()['token']
+    client_token = get_client_token(api_base_url, data)
 
     # Get the Practice Table of Contents
-    headers = {'JWT': token}
+    headers = {'JWT': client_token}
     res = requests.get('{}/api/siyavula/v1/toc'.format(api_base_url), verify=False,
                        headers=headers)
     toc = res.json()
@@ -158,3 +131,69 @@ def practice_toc(request):
     return {
         'toc': toc
     }
+
+
+@view_config(route_name='practice_toc_with_mastery', renderer='/templates/practice_toc.jinja2')
+def practice_toc_with_mastery(request):
+    api_base_url = request.registry.settings['api_base_url']
+    user_id = 'RICHIE'
+
+    # The options for subject are:
+    #    South Africa:                     'maths', 'science'
+    #    Rest of Africa and International: 'maths', 'physics', 'chemistry'
+    subject = 'science'
+
+    # The options are:
+    #     South Africa:    8 - 12
+    #     Nigeria:         7 - 12
+    #     Rwanda:          7 - 10
+    #     International:   8 - 12
+    grade = '11'
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
+    # Authentication payload
+    data = {
+        'name': os.environ['api_client_name'],
+        'password': os.environ['api_client_password'],
+        'client_ip': request.client_addr,
+        'region': REGION,
+        'curriculum': CURRICULUM,
+        'theme': theme
+    }
+
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
+
+    # Get the Practice Table of Contents
+    headers = {
+        'JWT': client_token,
+        'Authorization': user_token
+    }
+
+    res = requests.get(
+        '{}/api/siyavula/v1/toc/user/{}/subject/{}/grade/{}'.format(
+            api_base_url, user_id, subject, grade),
+        verify=False, headers=headers)
+
+    toc = res.json()
+
+    return {
+        'toc': toc
+    }
+
+
+def get_client_token(api_base_url, data):
+    response = requests.post('{}/api/siyavula/v1/get-token'.format(api_base_url),
+                             verify=False, json=data)
+    return response.json()['token']
+
+
+def get_user_token(api_base_url, user_id, client_token, data):
+    # Ensure you have created a user with the external id specified or this won't work.
+    headers = {'JWT': client_token}
+    res = requests.get('{}/api/siyavula/v1/user/{}/token'.format(api_base_url, user_id),
+                       verify=False, json=data, headers=headers)
+    return res.json()['token']
