@@ -136,19 +136,19 @@ def practice_toc(request):
 @view_config(route_name='practice_toc_with_mastery', renderer='/templates/practice_toc.jinja2')
 def practice_toc_with_mastery(request):
     api_base_url = request.registry.settings['api_base_url']
-    user_id = 'RICHIE'
+    user_id = '1'
 
     # The options for subject are:
     #    South Africa:                     'maths', 'science'
     #    Rest of Africa and International: 'maths', 'physics', 'chemistry'
-    subject = 'science'
+    subject = 'maths'
 
     # The options are:
     #     South Africa:    8 - 12
     #     Nigeria:         7 - 12
     #     Rwanda:          7 - 10
     #     International:   8 - 12
-    grade = '11'
+    grade = '8'
 
     # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
     # without JavaScript support.
