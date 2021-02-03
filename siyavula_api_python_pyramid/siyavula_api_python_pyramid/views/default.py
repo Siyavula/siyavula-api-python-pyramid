@@ -32,7 +32,7 @@ def standalone_responsive(request):
     user_token = get_user_token(api_base_url, user_id, client_token, data)
 
     return {
-        'token': client_token,
+        'token': 'fake-token',#client_token,
         'user_token': user_token,
         'template_id': template_id,
         'random_seed': random_seed,
