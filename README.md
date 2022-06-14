@@ -40,3 +40,10 @@ This repo serves as a demo application written in [Python](https://www.python.or
     http://localhost:6543/standalone
 #### To demo an assignment activity, in your browser go to:
     http://localhost:6543/assignment
+    
+### Dev installation(internal use):
+#### To use the demo on your local instance run `./dev_start.sh` instead of `./start.sh`
+    ./dev_start.sh
+#### On some browsers the CORS cross-origin policy might block AJAX, JS or CSS loading in this case the easiest way to get around this is to use a plugin to override CORS headers.  
+* Chrome: https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino
+* Firefox: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
