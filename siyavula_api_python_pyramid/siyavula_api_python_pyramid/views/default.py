@@ -40,6 +40,39 @@ def standalone_responsive(request):
     }
 
 
+@view_config(route_name='standalone_list_responsive',
+             renderer='/templates/standalone_list_responsive.jinja2')
+def standalone_list_responsive(request):
+    api_base_url = request.registry.settings['api_base_url']
+    # Format [[template_id, random_seed(optional)], ...]
+    template_list = [[4858], [2216, 339850], [2198], [4901, 339297], [4902]]
+    user_id = '1'
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
+    # Authentication payload
+    data = {
+        'name': os.environ['api_client_name'],
+        'password': os.environ['api_client_password'],
+        'client_ip': request.client_addr,
+        'region': REGION,
+        'curriculum': CURRICULUM,
+        'theme': theme
+    }
+
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
+
+    return {
+        'token': client_token,
+        'user_token': user_token,
+        'template_list': template_list,
+        'api_base_url': api_base_url + '/'
+    }
+
+
 @view_config(route_name='assignment_responsive', renderer='/templates/assignment_responsive.jinja2')
 def assignment_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
