@@ -11,8 +11,10 @@ source my.env
 echo "${yellow}Starting siyavula_api_python_pyramid${reset}"
 echo "${green}Routes:${reset}"
 echo -e "${green}\tStandalone Activity: ${reset}${blue}http://localhost:6543/standalone${reset}"
+echo -e "${green}\tStandalone List Activity: ${reset}${blue}http://localhost:6543/standalone-list${reset}"
 echo -e "${green}\tAssignment Activity: ${reset}${blue}http://localhost:6543/assignment${reset}"
 echo -e "${green}\tPractice Activity: ${reset}${blue}http://localhost:6543/practice${reset}"
+echo -e "${green}\tGet Activity: ${reset}${blue}http://localhost:6543/get-activity${reset}"
 echo -e "${green}\tPractice Activity Table of Contents: ${reset}${blue}http://localhost:6543/practice-toc${reset}"
 echo -e "${green}\tPractice Activity Table of Contents (Mastery Applied): ${reset}${blue}http://localhost:6543/practice-toc-mastery${reset}"
 venv/bin/pserve siyavula_api_python_pyramid/development.ini --reload

@@ -4,5 +4,6 @@ def includeme(config):
     config.add_route('standalone_list_responsive', '/standalone-list')
     config.add_route('assignment_responsive', '/assignment')
     config.add_route('practice_responsive', '/practice')
+    config.add_route('get_activity', '/get-activity')
     config.add_route('practice_toc', '/practice-toc')
     config.add_route('practice_toc_with_mastery', '/practice-toc-mastery')
