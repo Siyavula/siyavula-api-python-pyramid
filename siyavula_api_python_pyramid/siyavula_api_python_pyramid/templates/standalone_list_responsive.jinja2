@@ -4,6 +4,15 @@
     <title>Siyavula API - Standalone Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.min.css"/>
+    <style type="text/css">
+      .step-counter {
+          font-weight: 700;
+          font-size: 1.5em;
+          padding-bottom: 2%;
+          color: #008bb2;
+          float: right;
+      }
+    </style>
     <script type="text/javascript">
       var baseUrl = '{{ api_base_url }}';
       var token = '{{ token }}';
@@ -15,6 +24,7 @@
   <body>
     <main class="sv-region-main emas sv">
       <div id="monassis" class="monassis monassis--practice monassis--maths monassis--siyavula-api">
+        <div class="step-counter" id="step-counter"><br></div>
         <div class="question-wrapper">
           <div class="question-content"></div>
         </div>
