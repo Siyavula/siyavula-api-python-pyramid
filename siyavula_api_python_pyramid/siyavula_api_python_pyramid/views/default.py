@@ -7,8 +7,8 @@ REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
 CURRICULUM = 'CAPS'     # The curriculum code - can be: 'CAPS', 'NG', 'CBC', 'INTL'
 
 
-@view_config(route_name='unauthenticated_responsive', renderer='/templates/unauthenticated_responsive.jinja2')
-def unauthenticated_responsive(request):
+@view_config(route_name='anonymous_responsive', renderer='/templates/anonymous_responsive.jinja2')
+def anonymous_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
     template_id = 2122
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
@@ -34,7 +34,7 @@ def unauthenticated_responsive(request):
         'template_id': template_id,
         'random_seed': random_seed,
         'api_base_url': api_base_url + '/',
-        'sandbox_mode': True
+        'sandbox_mode': False
     }
 
 
