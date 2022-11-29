@@ -199,8 +199,8 @@ def get_activity_responsive(request):
     }
 
 
-@view_config(route_name='practice_toc', renderer='/templates/practice_toc.jinja2')
-def practice_toc(request):
+@view_config(route_name='toc', renderer='/templates/toc.jinja2')
+def toc(request):
     api_base_url = request.registry.settings['api_base_url']
 
     # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
@@ -230,7 +230,7 @@ def practice_toc(request):
     }
 
 
-@view_config(route_name='practice_toc_with_mastery', renderer='/templates/practice_toc.jinja2')
+@view_config(route_name='practice_toc_with_mastery', renderer='/templates/toc.jinja2')
 def practice_toc_with_mastery(request):
     api_base_url = request.registry.settings['api_base_url']
     user_id = '1'
