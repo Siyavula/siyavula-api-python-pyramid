@@ -7,6 +7,36 @@ REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
 CURRICULUM = 'CAPS'     # The curriculum code - can be: 'CAPS', 'NG', 'CBC', 'INTL'
 
 
+@view_config(route_name='unauthenticated_responsive', renderer='/templates/unauthenticated_responsive.jinja2')
+def unauthenticated_responsive(request):
+    api_base_url = request.registry.settings['api_base_url']
+    template_id = 2122
+    random_seed = 487029  # Random seed is optional, one will be generated if not provided.
+
+    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
+    # without JavaScript support.
+    theme = 'responsive'
+
+    # Authentication payload
+    data = {
+        'name': os.environ['api_client_name'],
+        'password': os.environ['api_client_password'],
+        'client_ip': request.client_addr,
+        'region': REGION,
+        'curriculum': CURRICULUM,
+        'theme': theme
+    }
+
+    client_token = get_client_token(api_base_url, data)
+
+    return {
+        'token': client_token,
+        'template_id': template_id,
+        'random_seed': random_seed,
+        'api_base_url': api_base_url + '/'
+    }
+
+
 @view_config(route_name='standalone_responsive', renderer='/templates/standalone_responsive.jinja2')
 def standalone_responsive(request):
     api_base_url = request.registry.settings['api_base_url']
