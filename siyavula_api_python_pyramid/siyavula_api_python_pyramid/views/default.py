@@ -33,7 +33,8 @@ def unauthenticated_responsive(request):
         'token': client_token,
         'template_id': template_id,
         'random_seed': random_seed,
-        'api_base_url': api_base_url + '/'
+        'api_base_url': api_base_url + '/',
+        'sandbox_mode': True
     }
 
 
