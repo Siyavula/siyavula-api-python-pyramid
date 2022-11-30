@@ -21,7 +21,6 @@ def anonymous_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -53,7 +52,6 @@ def standalone_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -87,7 +85,6 @@ def standalone_list_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -118,7 +115,6 @@ def assignment_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -149,7 +145,6 @@ def practice_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -181,7 +176,6 @@ def get_activity_responsive(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -211,7 +205,6 @@ def toc(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
@@ -255,7 +248,6 @@ def practice_toc_with_mastery(request):
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
-        'client_ip': request.client_addr,
         'region': REGION,
         'curriculum': CURRICULUM,
         'theme': theme
