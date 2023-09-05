@@ -8,3 +8,4 @@ def includeme(config):
     config.add_route('get_activity', '/get-activity')
     config.add_route('toc', '/toc')
     config.add_route('practice_toc_with_mastery', '/toc-mastery')
+    config.add_route('response_data', '/response-data')
