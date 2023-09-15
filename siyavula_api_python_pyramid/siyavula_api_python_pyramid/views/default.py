@@ -7,8 +7,8 @@ REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
 CURRICULUM = 'CAPS'     # The curriculum code - can be: 'CAPS', 'NG', 'CBC', 'INTL'
 
 
-@view_config(route_name='anonymous_responsive', renderer='/templates/anonymous_responsive.jinja2')
-def anonymous_responsive(request):
+@view_config(route_name='anonymous', renderer='/templates/anonymous.jinja2')
+def anonymous(request):
     api_base_url = request.registry.settings['api_base_url']
     template_id = 2122
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
@@ -37,8 +37,8 @@ def anonymous_responsive(request):
     }
 
 
-@view_config(route_name='standalone_responsive', renderer='/templates/standalone_responsive.jinja2')
-def standalone_responsive(request):
+@view_config(route_name='standalone', renderer='/templates/standalone.jinja2')
+def standalone(request):
     api_base_url = request.registry.settings['api_base_url']
     template_id = 2122
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
@@ -69,9 +69,9 @@ def standalone_responsive(request):
     }
 
 
-@view_config(route_name='standalone_list_responsive',
-             renderer='/templates/standalone_list_responsive.jinja2')
-def standalone_list_responsive(request):
+@view_config(route_name='standalone_list',
+             renderer='/templates/standalone_list.jinja2')
+def standalone_list(request):
     api_base_url = request.registry.settings['api_base_url']
     # Format [[template_id, random_seed(optional)], ...]
     template_list = [[4858], [2216, 339850], [2198], [4901, 339297], [4902]]
@@ -101,8 +101,8 @@ def standalone_list_responsive(request):
     }
 
 
-@view_config(route_name='assignment_responsive', renderer='/templates/assignment_responsive.jinja2')
-def assignment_responsive(request):
+@view_config(route_name='assignment', renderer='/templates/assignment.jinja2')
+def assignment(request):
     api_base_url = request.registry.settings['api_base_url']
     assignment_id = 9664  # Change this to one of your own assignments.
     user_id = '1'
@@ -131,8 +131,8 @@ def assignment_responsive(request):
     }
 
 
-@view_config(route_name='practice_responsive', renderer='/templates/practice_responsive.jinja2')
-def practice_responsive(request):
+@view_config(route_name='practice', renderer='/templates/practice.jinja2')
+def practice(request):
     api_base_url = request.registry.settings['api_base_url']
     section_id = 204  # Change this to the section you wish to practice.
     user_id = '1'
@@ -162,7 +162,7 @@ def practice_responsive(request):
 
 
 @view_config(route_name='get_activity', renderer='/templates/get_activity.jinja2')
-def get_activity_responsive(request):
+def get_activity(request):
     api_base_url = request.registry.settings['api_base_url']
     activity_template_id = '0fb33b26-4ac1-45a2-9b9f-5b53e76ad944'
     template_response_uuid = 'a388fd98-85da-4d29-9535-5f31ddab1606'
