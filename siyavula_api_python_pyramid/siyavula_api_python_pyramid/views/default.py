@@ -1,6 +1,8 @@
 import os
 import requests
 
+from datetime import date
+from dateutil.relativedelta import relativedelta
 from pyramid.view import view_config
 
 REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
@@ -13,17 +15,12 @@ def anonymous(request):
     template_id = 2122
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -44,17 +41,12 @@ def standalone(request):
     random_seed = 487029  # Random seed is optional, one will be generated if not provided.
     user_id = '1'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -77,17 +69,12 @@ def standalone_list(request):
     template_list = [[4858], [2216, 339850], [2198], [4901, 339297], [4902]]
     user_id = '1'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -107,17 +94,12 @@ def assignment(request):
     assignment_id = 9664  # Change this to one of your own assignments.
     user_id = '1'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -137,17 +119,12 @@ def practice(request):
     section_id = 204  # Change this to the section you wish to practice.
     user_id = '1'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -168,17 +145,12 @@ def get_activity(request):
     template_response_uuid = 'a388fd98-85da-4d29-9535-5f31ddab1606'
     user_id = '1'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -197,17 +169,12 @@ def get_activity(request):
 def toc(request):
     api_base_url = request.registry.settings['api_base_url']
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -240,17 +207,12 @@ def practice_toc_with_mastery(request):
     #     International:   8 - 12
     grade = '8'
 
-    # Use 'responsive' to get a responsive theme for modern devices or 'basic' for older devices
-    # without JavaScript support.
-    theme = 'responsive'
-
     # Authentication payload
     data = {
         'name': os.environ['api_client_name'],
         'password': os.environ['api_client_password'],
         'region': REGION,
-        'curriculum': CURRICULUM,
-        'theme': theme
+        'curriculum': CURRICULUM
     }
 
     client_token = get_client_token(api_base_url, data)
@@ -271,6 +233,42 @@ def practice_toc_with_mastery(request):
 
     return {
         'toc': toc
+    }
+
+
+@view_config(route_name='response_data', renderer='/templates/response_data.jinja2')
+def response_data(request):
+    api_base_url = request.registry.settings['api_base_url']
+
+    # Authentication payload
+    data = {
+        'name': os.environ['api_client_name'],
+        'password': os.environ['api_client_password'],
+        'region': REGION,
+        'curriculum': CURRICULUM
+    }
+
+    client_token = get_client_token(api_base_url, data)
+
+    headers = {'JWT': client_token}
+
+    last_month = date.today().replace(day=1) + relativedelta(months=-1)
+    first_day = last_month + relativedelta(day=1)
+    last_day = last_month + relativedelta(day=31)
+
+    # The start and end dates must be in the format of ISO8601.
+    data = {
+        'start': first_day.isoformat(),
+        'end': last_day.isoformat()
+    }
+
+    res = requests.post(
+        f'{api_base_url}/api/siyavula/v1/responses'.format(api_base_url), verify=False, json=data,
+        headers=headers)
+    response = res.json()
+
+    return {
+        'responses': response
     }
 
 
