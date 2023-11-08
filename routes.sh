@@ -9,3 +9,4 @@ echo -e "${green}\tGet Activity: ${reset}${blue}http://localhost:6543/get-activi
 echo -e "${green}\tTable of Contents: ${reset}${blue}http://localhost:6543/toc${reset}"
 echo -e "${green}\tPractice Activity Table of Contents (Mastery Applied): ${reset}${blue}http://localhost:6543/toc-mastery${reset}"
 echo -e "${green}\tResponse Data: ${reset}${blue}http://localhost:6543/response-data${reset}"
+echo -e "${green}\tUser Link Token: ${reset}${blue}http://localhost:6543/user-link-token${reset}"

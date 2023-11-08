@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Siyavula API - User Link Token</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <p>Token: {{ token_data.token }}</p>
+    <p>Status: {{ token_data.status }}</p>
+    <p>Expires in: {{ token_data.time_until_expiry }} minutes</p>
+    <p>Status: {{ token_data.status }}</p>
+    <p>External User ID: {{ token_data.external_user_id }}</p>
+    <p>
+      Have a Siyavula account already?  Link your account by clicking on this link:
+      <a href="{{ verification_url }}">{{ verification_url }}</a>
+    </p>
+    <p>Please note: You'll need a Siyavula account, if you don't have one you can sign up.</p>
+  </body>
+</html>
