@@ -9,3 +9,5 @@ def includeme(config):
     config.add_route('toc', '/toc')
     config.add_route('practice_toc_with_mastery', '/toc-mastery')
     config.add_route('response_data', '/response-data')
+    config.add_route('user_link_token', '/user-link-token')
+    config.add_route('user_link_token_redirect', '/user-link-token-redirect')

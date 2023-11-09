@@ -4,6 +4,7 @@ import requests
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from pyramid.view import view_config
+from random import randint
 
 REGION = 'ZA'           # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
 CURRICULUM = 'CAPS'     # The curriculum code - can be: 'CAPS', 'NG', 'CBC', 'INTL'
@@ -263,12 +264,65 @@ def response_data(request):
     }
 
     res = requests.post(
-        f'{api_base_url}/api/siyavula/v1/responses'.format(api_base_url), verify=False, json=data,
-        headers=headers)
+        f'{api_base_url}/api/siyavula/v1/responses', verify=False, json=data, headers=headers)
     response = res.json()
 
     return {
         'responses': response
+    }
+
+
+@view_config(route_name='user_link_token', renderer='/templates/user_link_token.jinja2')
+def user_link_token(request):
+    api_base_url = request.registry.settings['api_base_url']
+
+    # Authentication payload
+    data = {
+        'name': os.environ['api_client_name'],
+        'password': os.environ['api_client_password'],
+        'region': REGION,
+        'curriculum': CURRICULUM
+    }
+
+    client_token = get_client_token(api_base_url, data)
+
+    headers = {'JWT': client_token}
+
+    # Create User Login Token
+    data = {
+        'external_user_id': f'user_token_test_{randint(0, 99999)}',
+        'redirect_url': request.route_url('user_link_token_redirect')
+    }
+    res = requests.post(
+        f'{api_base_url}/api/siyavula/v1/user/link', verify=False, json=data, headers=headers)
+    create_token_response = res.json()
+
+    # Get token
+    res = requests.get(
+        f'{api_base_url}/api/siyavula/v1/user/link/{create_token_response["token"]}',
+        verify=False, headers=headers)
+    get_token_response = res.json()
+
+    return {
+        'token_data': get_token_response,
+        'verification_url': create_token_response['verification_url']
+    }
+
+
+@view_config(
+        route_name='user_link_token_redirect',
+        renderer='/templates/user_link_token_redirect.jinja2')
+def user_link_token_redirect(request):
+    token_id = request.GET.get('token')
+    status = request.GET.get('token_status')
+    external_user_id = request.GET.get('external_user_id')
+    error = request.GET.get('error')
+
+    return {
+        'token_id': token_id,
+        'status': status,
+        'external_user_id': external_user_id,
+        'error': error
     }
 
 
