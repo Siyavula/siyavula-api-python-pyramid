@@ -19,7 +19,7 @@ This repo serves as a demo application written in [Python](https://www.python.or
 **Please note**: this is only a demo application, the code was written to be as easy to understand as possible and as such might lack features you would expect in production level code.
 
 ## Requirements
-* Python >= 3.7
+* Python >= 3.8
 * Pip
 * Venv
 * Linux
