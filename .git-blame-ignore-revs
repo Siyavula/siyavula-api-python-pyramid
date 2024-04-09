@@ -1,0 +1,6 @@
+# When making commits that are strictly formatting/style changes,
+# add the commit hash here, so that git blame can ignore the change.
+#
+# Example entries:
+# <full commit hash>  # Format with isort
+# <full commit hash>  # Format with Ruff
