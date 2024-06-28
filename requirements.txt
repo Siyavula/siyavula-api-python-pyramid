@@ -1,4 +1,4 @@
 python-dateutil==2.8.2
 pyramid==2.0.2
-requests==2.32.3
+requests==2.31.0
 waitress==2.1.2
