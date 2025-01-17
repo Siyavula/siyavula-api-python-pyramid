@@ -1,7 +1,7 @@
 # Siyavula
 Our mission is to create and enable engaging, integrated, high-quality learning experiences in Mathematics and the Sciences; to have a long-lasting, enriching impact on learners and teachers in South Africa and globally; to constantly seek out and build the most relevant, effective technology whilst remaining rooted in the science of learning and instruction; and to engage and motivate young minds, helping them to master and develop the skills our future needs.
 
-Learn more: https://www.siyavulaeducation.com/
+Learn more: https://about.siyavula.com/
 
 ## Siyavula Practice
 Siyavula Practice is an online Maths and Physical Sciences practice service for high school learners. The program provides learners with virtually unlimited questions that become progressively more difficult as correct answers are given. Because Siyavula’s practice adapts to the needs of the person practising by changing the difficulty and sequencing of questions, learners can progress at their own pace. They receive immediate feedback on the questions they do, with step-by-step solutions, and errors and misconceptions are corrected in real time.  Siyavula Practice can be used by anyone with a computer, tablet or mobile phone (both smart and feature phones are supported) and an internet connection.
@@ -40,10 +40,10 @@ This repo serves as a demo application written in [Python](https://www.python.or
     http://localhost:6543/standalone
 #### To demo an assignment activity, in your browser go to:
     http://localhost:6543/assignment
-    
+
 ### Dev installation(internal use):
 #### To use the demo on your local instance run `./dev_start.sh` instead of `./start.sh`
     ./dev_start.sh
-#### On some browsers the CORS cross-origin policy might block AJAX, JS or CSS loading in this case the easiest way to get around this is to use a plugin to override CORS headers.  
+#### On some browsers the CORS cross-origin policy might block AJAX, JS or CSS loading in this case the easiest way to get around this is to use a plugin to override CORS headers.
 * Chrome: https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino
 * Firefox: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
