@@ -4,3 +4,4 @@
 # Example entries:
 # <full commit hash>  # Format with isort
 # <full commit hash>  # Format with Ruff
+01e63d72661187a99f4b8c0f8c73fe5c7e4d5732  # Format with isort and ruff then apply pyupgrade
