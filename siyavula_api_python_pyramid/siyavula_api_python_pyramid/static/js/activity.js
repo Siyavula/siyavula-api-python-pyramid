@@ -1,0 +1,136 @@
+const manager = new SiyavulaActivityManager();
+const config = {
+  baseUrl: "{{ api_base_url }}",
+  token: "{{ token }}",
+  userToken: "{{ user_token }}",
+  showLivePreview: true,
+};
+
+async function initializeActivities() {
+  try {
+    const practice = await manager.createActivity(
+      "#practice",
+      config,
+      "practice",
+      {
+        sectionId: 204,
+      }
+    );
+
+    // const practice2 = await manager.createActivity('#practice-2', config, 'practice', {
+    //   sectionId: 187
+    // });
+
+    const assignment = await manager.createActivity(
+      "#assignment",
+      config,
+      "assignment",
+      {
+        assignmentId: 9664,
+      }
+    );
+
+    const standaloneList = await manager.createActivity(
+      "#standalone-list",
+      config,
+      "standalone-list",
+      {
+        templateList: [[4858], [2216, 339850], [2198], [4901, 339297], [4902]],
+      }
+    );
+
+    practice.renderer.on("activityProgressUpdate", (data) => {
+      const chapterMastery = data.chapter.mastery.toFixed(2) || "0";
+      const sectionMastery = data.section.mastery.toFixed(2) || "0";
+
+      const badge = practice.renderer.container.querySelectorAll(
+        ".activity-badge #value"
+      );
+      const chapterMasteryBadge = badge[0];
+      const sectionMasteryBadge = badge[1];
+
+      chapterMasteryBadge.textContent = chapterMastery;
+      sectionMasteryBadge.textContent = sectionMastery;
+    });
+    practice.renderer.emit(
+      "activityProgressUpdate",
+      practice.currentActivity.progress
+    );
+
+    assignment.renderer.on("activityProgressUpdate", (data) => {
+      const badge =
+        assignment.renderer.container.querySelector(".activity-badge");
+      if (badge) {
+        badge.textContent = `${data.current_index + 1}/${data.question_count}`;
+      }
+    });
+    assignment.renderer.emit(
+      "activityProgressUpdate",
+      assignment.currentActivity.progress
+    );
+
+    assignment.renderer.on("assignmentComplete", (data) => {
+      const svContainer = assignment.renderer.container.querySelector(".sv");
+      const percentageCount = (data.correct_count / data.question_count) * 100;
+      let feedback = "";
+      let finalFeedback = "";
+
+      if (percentageCount === 0) {
+        feedback = "Great effort! You've completed the assignment.";
+        finalFeedback =
+          "You didn't get any questions correct this time. Try it again to improve!";
+      } else if (percentageCount < 50) {
+        feedback = "Great effort! You've completed the assignment.";
+        finalFeedback = `Your overall result is ${percentageCount}%.`;
+      } else if (percentageCount < 70) {
+        feedback = "Well done! You've completed the assignment.";
+        finalFeedback = `Your overall result is ${percentageCount}%.`;
+      } else if (percentageCount < 100) {
+        feedback = "Excellent! You've completed the assignment.";
+        finalFeedback = `Your overall result is ${percentageCount}%.`;
+      } else {
+        feedback = "Awesome! You've completed the assignment.";
+        finalFeedback = "You answered every question correctly and got 100%!";
+      }
+
+      const completionHtml = `
+                <div class="assignment-completion-message">
+                  <div class="assignment-completion-message-figure">
+                    <img class="icon" src="static/img/assignment-completed.svg" aria-hidden="true">
+                  </div>
+                  <div class="assignment-completion-message-title">${feedback}</div>
+                  <div class="assignment-completion-message-description">${finalFeedback}</div>
+                </div>
+              `;
+
+      if (svContainer) {
+        svContainer.insertAdjacentHTML("beforeend", completionHtml);
+        assignment.renderer.container.querySelector(
+          ".sv-form__actions"
+        ).style.display = "none";
+      }
+    });
+    assignment.renderer.emit(
+      "assignmentComplete",
+      assignment.currentActivity.progress
+    );
+
+    standaloneList.renderer.on("activityProgressUpdate", (data) => {
+      const badge =
+        standaloneList.renderer.container.querySelector(".activity-badge");
+      if (badge) {
+        badge.textContent = `${data.current_step}/${data.total_steps}`;
+      }
+    });
+    standaloneList.renderer.emit(
+      "activityProgressUpdate",
+      standaloneList.currentActivity.progress
+    );
+  } catch (error) {
+    console.error("Failed to initialize activities:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeActivities();
+});

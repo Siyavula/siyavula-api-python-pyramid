@@ -1,35 +1,65 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Siyavula API - Standalone Activity</title>
+    <title>Siyavula API - Standalone List Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.min.css"/>
-    <style type="text/css">
-      .step-counter {
-          font-weight: 700;
-          font-size: 1.5em;
-          padding-bottom: 2%;
-          color: #008bb2;
-          float: right;
-      }
-    </style>
-    <script type="text/javascript">
-      var baseUrl = '{{ api_base_url }}';
-      var token = '{{ token }}';
-      var userToken = '{{ user_token }}';
-      var activityType = 'standaloneList';
-      var templateList = {{ template_list }};
-    </script>
+    <link rel="stylesheet" href="https://www.siyavula.com/static/themes/emas/siyavula-api/siyavula-api.min.css"/>
+    <link rel="stylesheet" href="static/css/styles.css"/>
   </head>
   <body>
-    <main class="sv-region-main emas sv">
-      <div id="monassis" class="monassis monassis--practice monassis--maths monassis--siyavula-api">
-        <div class="question-wrapper">
-          <div class="question-content"></div>
+    <main class="sv">
+      <div class="activity" id="standalone-list">
+        <div class="activity-header">
+          <h1>Standalone List</h1>
+          <div class="activity-badges">
+            <div class="activity-badge"></div>
+          </div>
         </div>
+        <div class="question-content"></div>
       </div>
     </main>
+
+    <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script src="{{ api_base_url }}static/themes/emas/siyavula-api/js/v2/siyavula-api.js"></script>
+    <script>
+      const manager = new SiyavulaActivityManager();
+      const config = {
+        baseUrl: "{{ api_base_url }}",
+        token: "{{ token }}",
+        userToken: "{{ user_token }}",
+        showLivePreview: true,
+      };
+
+      async function initializeActivities() {
+        try {
+          const standaloneList = await manager.createActivity(
+            "#standalone-list",
+            config,
+            "standalone-list",
+            {
+              templateList: {{ template_list }},
+            }
+          );
+
+          standaloneList.renderer.on("activityProgressUpdate", (data) => {
+            const badge =
+              standaloneList.renderer.container.querySelector(".activity-badge");
+            if (badge) {
+              badge.textContent = `${data.current_step}/${data.total_steps}`;
+            }
+          });
+          standaloneList.renderer.emit(
+            "activityProgressUpdate",
+            standaloneList.currentActivity.progress
+          );
+        } catch (error) {
+          console.error("Failed to initialize activities:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeActivities();
+      });
+    </script>
   </body>
-  <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script src="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.js"></script>
 </html>

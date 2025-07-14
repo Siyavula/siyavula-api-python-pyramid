@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Siyavula API - Practice Activity</title>
+    <title>Siyavula API - Get Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.min.css"/>
-    <script type="text/javascript">
-      var baseUrl = '{{ api_base_url }}';
-      var token = '{{ token }}';
-      var userToken = '{{ user_token }}';
-      var activityId = '{{ activity_template_id }}';
-      var responseId = '{{ template_response_uuid }}';
-    </script>
-    <style type="text/css">
-      .progress:before {
-        content:attr(data-text);
-      }
-      .progress {
-        height: 2.5em;
-        line-height: 2.5em;
-        text-align:center;
-        vertical-align: middle;
-      }
-    </style>
+    <link rel="stylesheet" href="https://www.siyavula.com/static/themes/emas/siyavula-api/siyavula-api.min.css"/>
+    <link rel="stylesheet" href="static/css/styles.css"/>
   </head>
   <body>
-    <main class="sv-region-main emas sv">
-      <span class="emphasis-bold answer">Chapter Mastery (<span id="chapter-mastery-title"></span>):</span><br>
-      <progress class="progress" id="chapter-mastery" value="0" max="100" data-text="0%"></progress><br>
-      <span class="emphasis-bold answer">Section Mastery (<span id="section-mastery-title"></span>):</span><br>
-      <progress class="progress" id="section-mastery" value="0" max="100" data-text="0%"></progress><br>
-      <br>
-      <div id="monassis" class="monassis monassis--practice monassis--maths monassis--siyavula-api">
-        <div class="question-wrapper">
-          <div class="question-content"></div>
+    <main class="sv">
+      <div class="activity" id="get-activity">
+        <div class="activity-header">
+          <h1>Get Activity</h1>
         </div>
+        <div class="question-content"></div>
       </div>
     </main>
+
+    <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script src="{{ api_base_url }}static/themes/emas/siyavula-api/js/v2/siyavula-api.js"></script>
+    <script>
+      const manager = new SiyavulaActivityManager();
+      const config = {
+        baseUrl: "{{ api_base_url }}",
+        token: "{{ token }}",
+        userToken: "{{ user_token }}",
+        showLivePreview: true,
+      };
+
+      async function initializeActivities() {
+        try {
+          const activity = await manager.loadActivity(
+            "#get-activity",
+            config,
+            '{{ activity_template_id }}',
+            '{{ template_response_uuid }}'
+          );
+        } catch (error) {
+          console.error("Failed to initialize activities:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeActivities();
+      });
+    </script>
   </body>
-  <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script src="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.js"></script>
 </html>
