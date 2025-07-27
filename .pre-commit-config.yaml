@@ -6,6 +6,12 @@ default_stages: [pre-commit]
 fail_fast: true
 
 repos:
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args: [--py38-plus]
+
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
