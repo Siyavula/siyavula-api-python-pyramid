@@ -3,40 +3,76 @@
   <head>
     <title>Siyavula API - Practice Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.min.css"/>
-    <script type="text/javascript">
-      var baseUrl = '{{ api_base_url }}';
-      var token = '{{ token }}';
-      var userToken = '{{ user_token }}';
-      var activityType = 'practice';
-      var sectionId = {{ section_id }};
-    </script>
-    <style type="text/css">
-      .progress:before {
-        content:attr(data-text);
-      }
-      .progress {
-        height: 2.5em;
-        line-height: 2.5em;
-        text-align:center;
-        vertical-align: middle;
-      }
-    </style>
+    <link rel="stylesheet" href="https://www.siyavula.com/static/themes/emas/siyavula-api/siyavula-api.min.css"/>
+    <link rel="stylesheet" href="static/css/styles.css"/>
   </head>
   <body>
-    <main class="sv-region-main emas sv">
-      <span class="emphasis-bold answer">Chapter Mastery (<span id="chapter-mastery-title"></span>):</span><br>
-      <progress class="progress" id="chapter-mastery" value="0" max="100" data-text="0%"></progress><br>
-      <span class="emphasis-bold answer">Section Mastery (<span id="section-mastery-title"></span>):</span><br>
-      <progress class="progress" id="section-mastery" value="0" max="100" data-text="0%"></progress><br>
-      <br>
-      <div id="monassis" class="monassis monassis--practice monassis--maths monassis--siyavula-api">
-        <div class="question-wrapper">
-          <div class="question-content"></div>
+    <main class="sv">
+      <div class="activity" id="practice">
+        <div class="activity-header">
+          <h1>Practice</h1>
+          <div class="activity-badges">
+            <div class="activity-badge">
+              Chapter Mastery: <span id="value">0</span>%
+            </div>
+            <div class="activity-badge">
+              Section Mastery: <span id="value">0</span>%
+            </div>
+          </div>
         </div>
+        <div class="question-content"></div>
       </div>
     </main>
+
+    <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script src="{{ api_base_url }}static/themes/emas/siyavula-api/js/v2/siyavula-api.js"></script>
+    <script>
+      const manager = new Siyavula.SiyavulaActivityManager();
+      const config = {
+        baseUrl: "{{ api_base_url }}",
+        token: "{{ token }}",
+        userToken: "{{ user_token }}",
+        showLivePreview: true,
+      };
+
+      async function initializeActivities() {
+        try {
+          const practice = await manager.createActivity(
+            "#practice",
+            config,
+            "practice",
+            {
+              sectionId: 204,
+            }
+          );
+
+          practice.renderer.on("activityProgressUpdate", (data) => {
+            const chapterMastery = data.chapter.mastery.toFixed(2) || "0";
+            const sectionMastery = data.section.mastery.toFixed(2) || "0";
+
+            const badge = practice.renderer.container.querySelectorAll(
+              ".activity-badge #value"
+            );
+            const chapterMasteryBadge = badge[0];
+            const sectionMasteryBadge = badge[1];
+
+            chapterMasteryBadge.textContent = chapterMastery;
+            sectionMasteryBadge.textContent = sectionMastery;
+          });
+
+          // Trigger initial progress update
+          practice.renderer.emit(
+            "activityProgressUpdate",
+            practice.currentActivity.progress
+          );
+        } catch (error) {
+          console.error("Failed to initialize activities:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeActivities();
+      });
+    </script>
   </body>
-  <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script src="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.js"></script>
 </html>

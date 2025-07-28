@@ -142,8 +142,12 @@ def practice(request):
 @view_config(route_name="get_activity", renderer="/templates/get_activity.jinja2")
 def get_activity(request):
     api_base_url = request.registry.settings["api_base_url"]
-    activity_template_id = "0fb33b26-4ac1-45a2-9b9f-5b53e76ad944"
-    template_response_uuid = "a388fd98-85da-4d29-9535-5f31ddab1606"
+    activity_template_id = (
+        "8644e156-7680-4773-b255-7692479f89fb"  # "0fb33b26-4ac1-45a2-9b9f-5b53e76ad944"
+    )
+    template_response_uuid = (
+        "dadfc5e6-a7d6-4c7c-a34d-fbf5d6f6098f"  # "a388fd98-85da-4d29-9535-5f31ddab1606"
+    )
     user_id = "1"
 
     # Authentication payload
@@ -291,7 +295,7 @@ def user_link_token(request):
 
     # Get token
     res = requests.get(
-        f'{api_base_url}/api/siyavula/v1/user/link/{create_token_response["token"]}',
+        f"{api_base_url}/api/siyavula/v1/user/link/{create_token_response['token']}",
         verify=False,
         headers=headers,
     )
@@ -320,6 +324,31 @@ def user_link_token_redirect(request):
     }
 
 
+@view_config(route_name="multiple_activities", renderer="/templates/multiple_activities.jinja2")
+def multiple_activities(request):
+    api_base_url = request.registry.settings["api_base_url"]
+    section_id = 204  # Change this to the section you wish to practice.
+    user_id = "1"
+
+    # Authentication payload
+    data = {
+        "name": os.environ["api_client_name"],
+        "password": os.environ["api_client_password"],
+        "region": REGION,
+        "curriculum": CURRICULUM,
+    }
+
+    client_token = get_client_token(api_base_url, data)
+    user_token = get_user_token(api_base_url, user_id, client_token, data)
+
+    return {
+        "token": client_token,
+        "user_token": user_token,
+        "section_id": section_id,
+        "api_base_url": api_base_url + "/",
+    }
+
+
 def get_client_token(api_base_url, data):
     response = requests.post(f"{api_base_url}/api/siyavula/v1/get-token", verify=False, json=data)
     return response.json()["token"]
@@ -328,10 +357,10 @@ def get_client_token(api_base_url, data):
 def get_user_token(api_base_url, user_id, client_token, data):
     # Ensure you have created a user with the external id specified or this won't work.
     headers = {"JWT": client_token}
-    res = requests.get(
+    response = requests.get(
         f"{api_base_url}/api/siyavula/v1/user/{user_id}/token",
         verify=False,
         json=data,
         headers=headers,
     )
-    return res.json()["token"]
+    return response.json()["token"]

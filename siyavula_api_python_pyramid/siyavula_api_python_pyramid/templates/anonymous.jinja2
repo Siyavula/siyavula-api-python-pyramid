@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Siyavula API - Standalone Activity</title>
+    <title>Siyavula API - Anonymous Activity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.min.css"/>
-    <script type="text/javascript">
-      var baseUrl = '{{ api_base_url }}';
-      var token = '{{ token }}';
-      var activityType = 'anonymous';
-      var templateId = {{ template_id }};
-      var randomSeed = {{ random_seed }};
-      var sandboxMode = {{ sandbox_mode|lower }}
-    </script>
+    <link rel="stylesheet" href="https://www.siyavula.com/static/themes/emas/siyavula-api/siyavula-api.min.css"/>
+    <link rel="stylesheet" href="static/css/styles.css"/>
   </head>
   <body>
-    <main class="sv-region-main emas sv">
-      <div id="monassis" class="monassis monassis--practice monassis--maths monassis--siyavula-api">
-        <div class="question-wrapper">
-          <div class="question-content"></div>
+    <main class="sv">
+      <div class="activity" id="anonymous">
+        <div class="activity-header">
+          <h1>Anonymous</h1>
         </div>
+        <div class="question-content"></div>
       </div>
     </main>
+
+    <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script src="{{ api_base_url }}static/themes/emas/siyavula-api/js/v2/siyavula-api.js"></script>
+    <script>
+      const manager = new Siyavula.SiyavulaActivityManager();
+      const config = {
+        baseUrl: "{{ api_base_url }}",
+        token: "{{ token }}",
+        userToken: "{{ user_token }}",
+        showLivePreview: true,
+      };
+
+      async function initializeActivities() {
+        try {
+          const anonymous = await manager.createActivity(
+            "#anonymous",
+            config,
+            "anonymous",
+            {
+              templateId: {{ template_id }},
+              randomSeed: {{ random_seed }},
+              sandboxMode: {{ sandbox_mode|lower }}
+            }
+          );
+        } catch (error) {
+          console.error("Failed to initialize activities:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeActivities();
+      });
+    </script>
   </body>
-  <script src="{{ api_base_url }}static/themes/emas/node_modules/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script src="{{ api_base_url }}static/themes/emas/siyavula-api/siyavula-api.js"></script>
 </html>
