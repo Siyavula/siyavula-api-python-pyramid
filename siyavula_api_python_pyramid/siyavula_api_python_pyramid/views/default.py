@@ -1,10 +1,9 @@
 import os
 
-from datetime import date
+from datetime import date, timedelta
 from random import randint
 import requests
 
-from dateutil.relativedelta import relativedelta
 from pyramid.view import view_config
 
 REGION = "ZA"  # The country code - can be: 'ZA', 'NG', 'RW', 'INTL'
@@ -252,9 +251,8 @@ def response_data(request):
 
     headers = {"JWT": client_token}
 
-    last_month = date.today().replace(day=1) + relativedelta(months=-1)
-    first_day = last_month + relativedelta(day=1)
-    last_day = last_month + relativedelta(day=31)
+    last_day = date.today().replace(day=1) - timedelta(days=1)
+    first_day = last_day.replace(day=1)
 
     # The start and end dates must be in the format of ISO8601.
     data = {"start": first_day.isoformat(), "end": last_day.isoformat()}

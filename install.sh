@@ -9,7 +9,7 @@ if [ -d "venv" ]; then
     echo "${green}Virtual environment exists${reset}"
 else
     echo "${yellow}Creating Virtual environment${reset}"
-    virtualenv --python=python3.8 venv
+    virtualenv --python=python3.13 venv
     echo "${green}Virtual environment created${reset}"
 fi
 
